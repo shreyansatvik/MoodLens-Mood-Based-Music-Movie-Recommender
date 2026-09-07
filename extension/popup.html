@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MoodLens</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="popup.css" />
+</head>
+<body>
+
+  <!-- ── Header ─────────────────────────────────────────────── -->
+  <header class="header">
+    <div class="logo">
+      <span class="logo-icon">🎭</span>
+      <span class="logo-text">MoodLens</span>
+    </div>
+    <div class="status-indicator" id="statusDot" title="Backend status">
+      <span class="dot"></span>
+      <span class="status-label" id="statusLabel">Connecting…</span>
+    </div>
+  </header>
+
+  <!-- ── Webcam Section ─────────────────────────────────────── -->
+  <section class="cam-section">
+    <div class="video-wrapper" id="videoWrapper">
+      <video id="video" autoplay playsinline muted></video>
+      <canvas id="canvas" style="display:none;"></canvas>
+
+      <!-- Overlay shown when camera is off -->
+      <div class="cam-placeholder" id="camPlaceholder">
+        <span class="cam-icon">📷</span>
+        <p>Click Start to activate camera</p>
+      </div>
+
+      <!-- Emotion overlay badge during live detection -->
+      <div class="emotion-overlay" id="emotionOverlay" style="display:none;">
+        <span id="overlayEmoji"></span>
+        <span id="overlayLabel"></span>
+      </div>
+
+      <!-- Auto-detect countdown ring -->
+      <div class="scan-ring" id="scanRing" style="display:none;"></div>
+    </div>
+
+    <!-- Controls -->
+    <div class="cam-controls">
+      <button class="btn btn-primary" id="btnStart">
+        <span class="btn-icon">▶</span> Start Camera
+      </button>
+      <button class="btn btn-danger" id="btnStop" style="display:none;">
+        <span class="btn-icon">⏹</span> Stop
+      </button>
+      <button class="btn btn-accent" id="btnDetectNow" style="display:none;">
+        <span class="btn-icon">🔍</span> Detect Now
+      </button>
+    </div>
+
+    <!-- Auto-detect toggle -->
+    <div class="auto-row">
+      <label class="toggle-label">
+        <input type="checkbox" id="autoDetectToggle" checked />
+        <span class="toggle-track"></span>
+        <span class="toggle-text">Auto-detect every <strong id="intervalLabel">15s</strong></span>
+      </label>
+      <select id="intervalSelect" class="interval-select">
+        <option value="10">10 sec</option>
+        <option value="15" selected>15 sec</option>
+        <option value="30">30 sec</option>
+        <option value="60">60 sec</option>
+      </select>
+    </div>
+  </section>
+
+  <!-- ── Detected Mood Banner ───────────────────────────────── -->
+  <div class="mood-banner" id="moodBanner" style="display:none;">
+    <div class="mood-left">
+      <span class="mood-emoji" id="moodEmoji">😄</span>
+      <div class="mood-info">
+        <span class="mood-detected-label">Detected Mood</span>
+        <span class="mood-name" id="moodName">Happy</span>
+      </div>
+    </div>
+    <div class="mood-right">
+      <span class="confidence-tag" id="confidenceTag">92%</span>
+      <span class="updated-tag" id="updatedTag">just now</span>
+    </div>
+  </div>
+
+  <!-- ── Tabs ───────────────────────────────────────────────── -->
+  <div class="tabs" id="tabs" style="display:none;">
+    <button class="tab active" data-tab="movies">🎬 Movies</button>
+    <button class="tab" data-tab="music">🎵 Music</button>
+  </div>
+
+  <!-- ── Results Area ───────────────────────────────────────── -->
+  <div class="results-area" id="resultsArea" style="display:none;">
+
+    <!-- Movies Panel -->
+    <div class="panel active" id="panelMovies">
+      <div class="section-header">
+        <h2 class="section-title">Recommended Movies</h2>
+        <button class="refresh-btn" id="btnRefreshMovies" title="Shuffle recommendations">↺</button>
+      </div>
+      <div class="movie-list" id="movieList"></div>
+    </div>
+
+    <!-- Music Panel -->
+    <div class="panel" id="panelMusic">
+      <div class="section-header">
+        <h2 class="section-title">Mood Music</h2>
+        <button class="refresh-btn" id="btnRefreshMusic" title="Fetch more tracks">↺</button>
+      </div>
+      <div class="music-list" id="musicList"></div>
+    </div>
+
+  </div>
+
+  <!-- ── Empty / Loading State ─────────────────────────────── -->
+  <div class="empty-state" id="emptyState">
+    <div class="empty-icon">🎭</div>
+    <p class="empty-msg">Start your camera and we'll detect your mood<br/>to recommend movies &amp; music just for you.</p>
+  </div>
+
+  <!-- ── Footer ─────────────────────────────────────────────── -->
+  <footer class="footer">
+    <span>MoodLens • AI-Powered Recommendations</span>
+    <span id="footerUpdate"></span>
+  </footer>
+
+  <script src="popup.js"></script>
+</body>
+</html>
