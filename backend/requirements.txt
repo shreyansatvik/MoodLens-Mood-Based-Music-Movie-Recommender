@@ -1,0 +1,7 @@
+flask
+flask-cors
+tensorflow<2.16
+numpy
+Pillow
+pandas
+google-api-python-client
