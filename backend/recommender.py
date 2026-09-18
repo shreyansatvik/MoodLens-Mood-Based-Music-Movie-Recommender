@@ -7,8 +7,8 @@ from googleapiclient.discovery import build
 CSV_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)),
                         "..", "dataset", "preprodata.csv")
 
-# ── YouTube API ────────────────────────────────────────────────────────────────
-YOUTUBE_API_KEY = "AIzaSyAHz-WEKgIjtKgBPxzIw4p7zFUaNkzPvg8"
+# ── YouTube API ENTER YOUR YOUTUBE API KEY ────────────────────────────────────────────────────────────────
+YOUTUBE_API_KEY = "ENTER YOUTUBE API KEY"
 youtube = build("youtube", "v3", developerKey=YOUTUBE_API_KEY)
 
 # ── Load CSV once at startup ───────────────────────────────────────────────────
